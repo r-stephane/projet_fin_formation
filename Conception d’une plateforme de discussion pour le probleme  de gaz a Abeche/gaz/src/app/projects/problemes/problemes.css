@@ -1,0 +1,29 @@
+.problems-section {
+  padding: 60px 20px;
+}
+
+.problems-section h2 {
+  text-align: center;
+  color: #0a5275;
+  margin-bottom: 30px;
+}
+
+.problem-list {
+  list-style: none;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.problem-list li {
+  padding: 10px;
+  background: #f1f8fa;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.problem-list li a {
+  text-decoration: none;
+  color: #0a5275;
+  font-weight: bold;
+}

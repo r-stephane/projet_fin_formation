@@ -1,0 +1,294 @@
+<div class="main-content">
+  <!-- Navigation horizontale -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo" routerLink="/">
+          <div class="logo-icon"></div>
+          <h1>Gaz Abéché</h1>
+        </div>
+
+        <nav class="main-nav">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a routerLink="/projects/dashboard" class="nav-link btn-dashboard"
+                >Accueil</a
+              >
+            </li>
+            <li class="nav-item">
+              <a routerLink="/projects/problemes" class="nav-link btn-problemes">Problèmes</a>
+            </li>
+            <li class="nav-item">
+              <a
+                routerLink="/projects/discussion" class="nav-link btn-discussion">Discussion</a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/projects/solutions" class="nav-link btn-solutions">Solutions</a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/projects/contact" class="nav-link btn-contact">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/projects/register" class="nav-link btn-register">S'inscrire</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="accueil">
+    <div class="hero-content">
+      <h2 class="animate-fade-up">
+        Ensemble, résolvons les problèmes de gaz à Abéché
+      </h2>
+      <p class="animate-fade-up delay-1">
+        Partagez vos expériences, proposez des solutions et engagez-vous pour
+        améliorer l'accès à l'eau et au gaz dans notre communauté.
+      </p>
+      <a href="#discussion" class="btn animate-fade-up delay-2"
+        >Participer à la discussion</a
+      >
+    </div>
+    <div class="hero-wave"></div>
+  </section>
+
+  <section class="problems" id="problemes">
+    <div class="container">
+      <h2 class="section-title animate-fade-in">Problèmes Rencontrés</h2>
+      <div class="problems-grid">
+        <div class="problem-card animate-slide-up">
+          <div class="problem-icon">⛽</div>
+          <h3>Pénurie de Gaz</h3>
+          <p>
+            De nombreux quartiers d'Abéché souffrent de la pénurie de gaz
+            fréquentes et prolongées, affectant la vie quotidienne des
+            habitants.
+          </p>
+        </div>
+        <div class="problem-card animate-slide-up delay-1">
+          <div class="problem-icon">🔥</div>
+          <h3>Accès limité au gaz</h3>
+          <p>
+            Le gaz butane est souvent difficile à trouver ou vendu à des prix
+            excessifs, forçant les familles à utiliser du bois de chauffage.
+          </p>
+        </div>
+        <div class="problem-card animate-slide-up delay-2">
+          <div class="problem-icon">💸</div>
+          <h3>Coûts élevés</h3>
+          <p>
+            Le prix du gaz représente une part importante du budget
+            des ménages, particulièrement pour les familles modestes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="discussion" id="discussion">
+    <div class="container">
+      <h2 class="section-title animate-fade-in">Espace de Discussion</h2>
+      <div class="discussion-container">
+        <div class="discussion-form animate-fade-left">
+          <h3>Partagez votre expérience</h3>
+          <form #threadForm="ngForm" (ngSubmit)="onPostThread()">
+            <div class="form-group">
+              <label for="title">Titre du message</label>
+              <input
+                type="text"
+                id="title"
+                [(ngModel)]="newThreadTitle"
+                name="title"
+                required
+                placeholder="Donnez un titre à votre message"
+                class="animate-input"
+              />
+            </div>
+            <div class="form-group">
+              <label for="message">Votre message</label>
+              <textarea
+                id="message"
+                [(ngModel)]="newThreadMessage"
+                name="message"
+                required
+                rows="4"
+                placeholder="Décrivez votre problème ou partagez votre expérience..."
+                class="animate-input"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-pulse"
+              [disabled]="!threadForm.valid"
+            >
+              Publier
+            </button>
+          </form>
+        </div>
+
+        <div class="discussion-threads animate-fade-right">
+          <h3>Derniers échanges</h3>
+          <div class="threads-container">
+            <div
+              *ngFor="let thread of threads; let i = index"
+              class="thread animate-fade-in"
+              [style.animation-delay]="(i * 0.1) + 's'"
+            >
+              <div class="thread-header">
+                <span class="thread-author">{{ thread.author }}</span>
+                <span class="thread-date">{{ thread.date }}</span>
+              </div>
+              <h4>{{ thread.title }}</h4>
+              <p class="thread-content">{{ thread.content }}</p>
+              <div class="thread-actions">
+                <button
+                  class="thread-action btn-hover"
+                  (click)="onLikeThread(thread.id)"
+                >
+                  👍 J'aime ({{ thread.likes }})
+                </button>
+                <button
+                  class="thread-action btn-hover"
+                  (click)="toggleComments(thread.id)"
+                >
+                  💬 Commentaires ({{ thread.comments?.length || 0 }})
+                </button>
+              </div>
+
+              <!-- Section des commentaires -->
+              <div class="comments-section" *ngIf="thread.showComments">
+                <div class="comment-form">
+                  <textarea
+                    [(ngModel)]="thread.newComment"
+                    placeholder="Ajouter un commentaire..."
+                    class="comment-input"
+                    rows="2"
+                  ></textarea>
+                  <button
+                    class="btn-comment"
+                    (click)="onAddComment(thread.id)"
+                    [disabled]="!thread.newComment"
+                  >
+                    Commenter
+                  </button>
+                </div>
+
+                <div class="comments-list">
+                  <div *ngFor="let comment of thread.comments" class="comment">
+                    <div class="comment-header">
+                      <span class="comment-author">{{ comment.author }}</span>
+                      <span class="comment-date">{{ comment.date }}</span>
+                    </div>
+                    <p class="comment-content">{{ comment.content }}</p>
+                  </div>
+                  <div
+                    *ngIf="!thread.comments || thread.comments.length === 0"
+                    class="no-comments"
+                  >
+                    <p>
+                      Aucun commentaire pour le moment. Soyez le premier à
+                      réagir !
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="threads.length === 0"
+              class="no-threads animate-fade-in"
+            >
+              <p>
+                Aucune discussion pour le moment. Soyez le premier à publier !
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats" id="solutions">
+    <div class="container">
+      <h2 class="section-title animate-fade-in">Impact de la Communauté</h2>
+      <div class="stats-grid">
+        <div class="stat-card animate-bounce-in">
+          <div
+            class="stat-number count-up"
+            [attr.data-count]="participantsCount"
+          >
+            {{ participantsCount }}
+          </div>
+          <div class="stat-label">Participants</div>
+        </div>
+        <div class="stat-card animate-bounce-in delay-1">
+          <div class="stat-number count-up" [attr.data-count]="threadsCount">
+            {{ threadsCount }}
+          </div>
+          <div class="stat-label">Discussions</div>
+        </div>
+        <div class="stat-card animate-bounce-in delay-2">
+          <div class="stat-number count-up" [attr.data-count]="solutionsCount">
+            {{ solutionsCount }}
+          </div>
+          <div class="stat-label">Solutions proposées</div>
+        </div>
+        <div class="stat-card animate-bounce-in delay-3">
+          <div class="stat-number count-up" [attr.data-count]="daysCount">
+            {{ daysCount }}
+          </div>
+          <div class="stat-label">Jours d'engagement</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2 class="animate-fade-in">Rejoignez notre communauté</h2>
+      <p class="animate-fade-in delay-1">
+        Ensemble, nous pouvons faire la différence pour améliorer l'accès à
+         au gaz à Abéché.
+      </p>
+      <a
+        routerLink="/register"
+        class="btn btn-primary btn-pulse animate-fade-in delay-2"
+        >S'inscrire maintenant</a
+      >
+    </div>
+  </section>
+
+  <footer class="auth-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column animate-fade-up">
+          <h3>À propos</h3>
+          <ul>
+            <li><a href="#" class="link-hover">Notre mission</a></li>
+            <li><a href="#" class="link-hover">Équipe</a></li>
+            <li><a href="#" class="link-hover">Partenaires</a></li>
+          </ul>
+        </div>
+        <div class="footer-column animate-fade-up delay-1">
+          <h3>Ressources</h3>
+          <ul>
+            <li><a href="#" class="link-hover">Rapports</a></li>
+            <li><a href="#" class="link-hover">Solutions proposées</a></li>
+            <li><a href="#" class="link-hover">Contacts utiles</a></li>
+          </ul>
+        </div>
+        <div class="footer-column animate-fade-up delay-2">
+          <h3>Contact</h3>
+          <ul>
+            <li>Email: contact@eaugazabeché.td</li>
+            <li>Téléphone: +235 86 44 51 10</li>
+            <li>Abéché, Tchad</li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright animate-fade-in">
+        <p>&copy; 2025 Plateforme Eau & Gaz Abéché. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+</div>

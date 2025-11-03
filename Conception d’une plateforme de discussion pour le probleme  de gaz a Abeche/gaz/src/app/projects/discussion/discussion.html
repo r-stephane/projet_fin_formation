@@ -1,0 +1,16 @@
+<section class="discussion-section">
+  <div class="container">
+    <h2>Espace de Discussion</h2>
+    <form (ngSubmit)="postMessage()" class="discussion-form">
+      <textarea [(ngModel)]="newMessage" name="message" placeholder="Partagez votre expérience..." required></textarea>
+      <button type="submit" class="btn">Publier</button>
+    </form>
+
+    <div class="messages">
+      <div *ngFor="let thread of threads" class="message">
+        <p><strong>{{ thread.author }}</strong> — <small>{{ thread.date }}</small></p>
+        <p>{{ thread.content }}</p>
+      </div>
+    </div>
+  </div>
+</section>
