@@ -11,25 +11,43 @@
         <nav class="main-nav">
           <ul class="nav-list">
             <li class="nav-item">
-              <a routerLink="/projects/dashboard" class="nav-link btn-dashboard"
-                >Accueil</a
-              >
+              <a routerLink="/projects/dashboard" class="nav-link btn-dashboard">
+                {{ t('accueil') }}
+              </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/projects/problemes" class="nav-link btn-problemes">Problèmes</a>
+              <a routerLink="/projects/problemes" class="nav-link btn-problemes">
+                {{ t('problemes') }}
+              </a>
             </li>
             <li class="nav-item">
-              <a
-                routerLink="/projects/discussion" class="nav-link btn-discussion">Discussion</a>
+              <a routerLink="/projects/discussion" class="nav-link btn-discussion">
+                {{ t('discussion') }}
+              </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/projects/solutions" class="nav-link btn-solutions">Solutions</a>
+              <a routerLink="/projects/solutions" class="nav-link btn-solutions">
+                {{ t('solutions') }}
+              </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/projects/contact" class="nav-link btn-contact">Contact</a>
+              <a routerLink="/projects/contact" class="nav-link btn-contact">
+                {{ t('contact') }}
+              </a>
             </li>
+            
+            <!-- Bouton de traduction arabe -->
             <li class="nav-item">
-              <a routerLink="/projects/register" class="nav-link btn-register">S'inscrire</a>
+              <button class="nav-link btn-translate" (click)="toggleLanguage()">
+                <span class="language-text">{{ t('arabe') }}</span>
+                <span class="language-flag">{{ currentLanguage === 'fr' ? '🇸🇦' : '🇫🇷' }}</span>
+              </button>
+            </li>
+            
+            <li class="nav-item">
+              <a routerLink="/projects/register" class="nav-link btn-register">
+                {{ t('sinscrire') }}
+              </a>
             </li>
           </ul>
         </nav>
@@ -37,83 +55,83 @@
     </div>
   </header>
 
-  <section class="hero" id="accueil">
-    <div class="hero-content">
-      <h2 class="animate-fade-up">
-        Ensemble, résolvons les problèmes de gaz à Abéché
-      </h2>
-      <p class="animate-fade-up delay-1">
-        Partagez vos expériences, proposez des solutions et engagez-vous pour
-        améliorer l'accès à l'eau et au gaz dans notre communauté.
-      </p>
-      <a href="#discussion" class="btn animate-fade-up delay-2"
-        >Participer à la discussion</a
-      >
-    </div>
-    <div class="hero-wave"></div>
-  </section>
+ <section class="hero" id="accueil">
+  <div class="hero-content">
+    <h2 class="animate-fade-up">
+      {{ t('heroTitle') }}
+    </h2>
+    <p class="animate-fade-up delay-1">
+      {{ t('heroDescription') }}
+    </p>
+    <!-- Remplacer par routerLink vers la page discussion -->
+    <a 
+      routerLink="/projects/discussion" 
+      class="btn animate-fade-up delay-2"
+    >
+      {{ t('participer') }}
+    </a>
+  </div>
+  <div class="hero-wave"></div>
+</section>
 
   <section class="problems" id="problemes">
     <div class="container">
-      <h2 class="section-title animate-fade-in">Problèmes Rencontrés</h2>
+      <h2 class="section-title animate-fade-in">{{ t('problemesTitle') }}</h2>
       <div class="problems-grid">
         <div class="problem-card animate-slide-up">
           <div class="problem-icon">⛽</div>
-          <h3>Pénurie de Gaz</h3>
+          <h3>{{ t('penurieTitre') }}</h3>
           <p>
-            De nombreux quartiers d'Abéché souffrent de la pénurie de gaz
-            fréquentes et prolongées, affectant la vie quotidienne des
-            habitants.
+            {{ t('penurieDesc') }}
           </p>
         </div>
         <div class="problem-card animate-slide-up delay-1">
           <div class="problem-icon">🔥</div>
-          <h3>Accès limité au gaz</h3>
+          <h3>{{ t('accesTitre') }}</h3>
           <p>
-            Le gaz butane est souvent difficile à trouver ou vendu à des prix
-            excessifs, forçant les familles à utiliser du bois de chauffage.
+            {{ t('accesDesc') }}
           </p>
         </div>
         <div class="problem-card animate-slide-up delay-2">
           <div class="problem-icon">💸</div>
-          <h3>Coûts élevés</h3>
+          <h3>{{ t('coutsTitre') }}</h3>
           <p>
-            Le prix du gaz représente une part importante du budget
-            des ménages, particulièrement pour les familles modestes.
+            {{ t('coutsDesc') }}
           </p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Section Discussion complète -->
   <section class="discussion" id="discussion">
     <div class="container">
-      <h2 class="section-title animate-fade-in">Espace de Discussion</h2>
+      <h2 class="section-title animate-fade-in">{{ t('discussionTitle') }}</h2>
       <div class="discussion-container">
         <div class="discussion-form animate-fade-left">
-          <h3>Partagez votre expérience</h3>
+          <h3>{{ t('partagerExperience') }}</h3>
           <form #threadForm="ngForm" (ngSubmit)="onPostThread()">
             <div class="form-group">
-              <label for="title">Titre du message</label>
+              <label for="title">{{ t('titreMessage') }}</label>
               <input
                 type="text"
                 id="title"
                 [(ngModel)]="newThreadTitle"
                 name="title"
                 required
-                placeholder="Donnez un titre à votre message"
+                [placeholder]="t('placeholderTitre')"
                 class="animate-input"
               />
             </div>
             <div class="form-group">
-              <label for="message">Votre message</label>
+              <label for="message">{{ t('votreMessage') }}</label>
               <textarea
                 id="message"
                 [(ngModel)]="newThreadMessage"
                 name="message"
                 required
                 rows="4"
-                placeholder="Décrivez votre problème ou partagez votre expérience..."
+                [placeholder]="t('placeholderMessage')"
                 class="animate-input"
               ></textarea>
             </div>
@@ -122,13 +140,13 @@
               class="btn btn-pulse"
               [disabled]="!threadForm.valid"
             >
-              Publier
+              {{ t('publier') }}
             </button>
           </form>
         </div>
 
         <div class="discussion-threads animate-fade-right">
-          <h3>Derniers échanges</h3>
+          <h3>{{ t('derniersEchanges') }}</h3>
           <div class="threads-container">
             <div
               *ngFor="let thread of threads; let i = index"
@@ -146,13 +164,13 @@
                   class="thread-action btn-hover"
                   (click)="onLikeThread(thread.id)"
                 >
-                  👍 J'aime ({{ thread.likes }})
+                  👍 {{ t('jaime') }} ({{ thread.likes }})
                 </button>
                 <button
                   class="thread-action btn-hover"
                   (click)="toggleComments(thread.id)"
                 >
-                  💬 Commentaires ({{ thread.comments?.length || 0 }})
+                  💬 {{ t('commentaires') }} ({{ thread.comments.length || 0 }})
                 </button>
               </div>
 
@@ -161,7 +179,7 @@
                 <div class="comment-form">
                   <textarea
                     [(ngModel)]="thread.newComment"
-                    placeholder="Ajouter un commentaire..."
+                    [placeholder]="t('ajouterCommentaire')"
                     class="comment-input"
                     rows="2"
                   ></textarea>
@@ -170,7 +188,7 @@
                     (click)="onAddComment(thread.id)"
                     [disabled]="!thread.newComment"
                   >
-                    Commenter
+                    {{ t('commenter') }}
                   </button>
                 </div>
 
@@ -183,12 +201,11 @@
                     <p class="comment-content">{{ comment.content }}</p>
                   </div>
                   <div
-                    *ngIf="!thread.comments || thread.comments.length === 0"
+                    *ngIf="thread.comments.length === 0"
                     class="no-comments"
                   >
                     <p>
-                      Aucun commentaire pour le moment. Soyez le premier à
-                      réagir !
+                      {{ t('aucunCommentaire') }}
                     </p>
                   </div>
                 </div>
@@ -199,7 +216,7 @@
               class="no-threads animate-fade-in"
             >
               <p>
-                Aucune discussion pour le moment. Soyez le premier à publier !
+                {{ t('aucuneDiscussion') }}
               </p>
             </div>
           </div>
@@ -210,7 +227,7 @@
 
   <section class="stats" id="solutions">
     <div class="container">
-      <h2 class="section-title animate-fade-in">Impact de la Communauté</h2>
+      <h2 class="section-title animate-fade-in">{{ t('impactTitle') }}</h2>
       <div class="stats-grid">
         <div class="stat-card animate-bounce-in">
           <div
@@ -219,25 +236,25 @@
           >
             {{ participantsCount }}
           </div>
-          <div class="stat-label">Participants</div>
+          <div class="stat-label">{{ t('participants') }}</div>
         </div>
         <div class="stat-card animate-bounce-in delay-1">
           <div class="stat-number count-up" [attr.data-count]="threadsCount">
             {{ threadsCount }}
           </div>
-          <div class="stat-label">Discussions</div>
+          <div class="stat-label">{{ t('discussions') }}</div>
         </div>
         <div class="stat-card animate-bounce-in delay-2">
           <div class="stat-number count-up" [attr.data-count]="solutionsCount">
             {{ solutionsCount }}
           </div>
-          <div class="stat-label">Solutions proposées</div>
+          <div class="stat-label">{{ t('solutionsProposees') }}</div>
         </div>
         <div class="stat-card animate-bounce-in delay-3">
           <div class="stat-number count-up" [attr.data-count]="daysCount">
             {{ daysCount }}
           </div>
-          <div class="stat-label">Jours d'engagement</div>
+          <div class="stat-label">{{ t('joursEngagement') }}</div>
         </div>
       </div>
     </div>
@@ -245,15 +262,14 @@
 
   <section class="cta">
     <div class="container">
-      <h2 class="animate-fade-in">Rejoignez notre communauté</h2>
+      <h2 class="animate-fade-in">{{ t('ctaTitle') }}</h2>
       <p class="animate-fade-in delay-1">
-        Ensemble, nous pouvons faire la différence pour améliorer l'accès à
-         au gaz à Abéché.
+        {{ t('ctaDescription') }}
       </p>
       <a
         routerLink="/register"
         class="btn btn-primary btn-pulse animate-fade-in delay-2"
-        >S'inscrire maintenant</a
+        >{{ t('sinscrireMaintenant') }}</a
       >
     </div>
   </section>
@@ -262,32 +278,32 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-column animate-fade-up">
-          <h3>À propos</h3>
+          <h3>{{ t('apropos') }}</h3>
           <ul>
-            <li><a href="#" class="link-hover">Notre mission</a></li>
-            <li><a href="#" class="link-hover">Équipe</a></li>
-            <li><a href="#" class="link-hover">Partenaires</a></li>
+            <li><a href="#" class="link-hover">{{ t('notreMission') }}</a></li>
+            <li><a href="#" class="link-hover">{{ t('equipe') }}</a></li>
+            <li><a href="#" class="link-hover">{{ t('partenaires') }}</a></li>
           </ul>
         </div>
         <div class="footer-column animate-fade-up delay-1">
-          <h3>Ressources</h3>
+          <h3>{{ t('ressources') }}</h3>
           <ul>
-            <li><a href="#" class="link-hover">Rapports</a></li>
-            <li><a href="#" class="link-hover">Solutions proposées</a></li>
-            <li><a href="#" class="link-hover">Contacts utiles</a></li>
+            <li><a href="#" class="link-hover">{{ t('rapports') }}</a></li>
+            <li><a href="#" class="link-hover">{{ t('solutionsProposees') }}</a></li>
+            <li><a href="#" class="link-hover">{{ t('contactsUtiles') }}</a></li>
           </ul>
         </div>
         <div class="footer-column animate-fade-up delay-2">
-          <h3>Contact</h3>
+          <h3>{{ t('contact') }}</h3>
           <ul>
-            <li>Email: contact@eaugazabeché.td</li>
+            <li>Email: contact@gazabeché.td</li>
             <li>Téléphone: +235 86 44 51 10</li>
             <li>Abéché, Tchad</li>
           </ul>
         </div>
       </div>
       <div class="copyright animate-fade-in">
-        <p>&copy; 2025 Plateforme Eau & Gaz Abéché. Tous droits réservés.</p>
+        <p>{{ t('copyright') }}</p>
       </div>
     </div>
   </footer>

@@ -1026,3 +1026,100 @@ section {
     align-self: stretch;
   }
 }
+/* Styles pour le bouton de traduction */
+.btn-translate {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  margin: 0 0.5rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  height: auto;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.btn-translate::before {
+  display: none;
+}
+
+.btn-translate:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.language-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.language-flag {
+  font-size: 1.1rem;
+}
+
+/* Support RTL pour l'arabe */
+[dir="rtl"] {
+  text-align: right;
+  font-family: 'Arial', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+[dir="rtl"] .header-content {
+  flex-direction: row;
+}
+
+[dir="rtl"] .nav-list {
+  flex-direction: row;
+}
+
+[dir="rtl"] .logo {
+  flex-direction: row;
+}
+
+[dir="rtl"] .problems-grid,
+[dir="rtl"] .stats-grid,
+[dir="rtl"] .footer-content {
+  text-align: center;
+}
+
+[dir="rtl"] .form-group input,
+[dir="rtl"] .form-group textarea,
+[dir="rtl"] .comment-input {
+  text-align: right;
+}
+
+[dir="rtl"] .thread-header,
+[dir="rtl"] .comment-header {
+  flex-direction: row-reverse;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .btn-translate {
+    margin: 0.5rem 0;
+    justify-content: center;
+  }
+  
+  [dir="rtl"] .header-content {
+    flex-direction: column;
+  }
+  
+  [dir="rtl"] .nav-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+.discussion-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  align-items: start;
+}
