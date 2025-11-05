@@ -31,8 +31,12 @@
             placeholder="Entrez votre email"
           />
           <div *ngIf="submitted && f['email'].errors" class="error-message">
-            <span *ngIf="f['email'].errors?.['required']">L'email est requis</span>
-            <span *ngIf="f['email'].errors?.['email']">Format d'email invalide</span>
+            <span *ngIf="f['email'].errors?.['required']"
+              >L'email est requis</span
+            >
+            <span *ngIf="f['email'].errors?.['email']"
+              >Format d'email invalide</span
+            >
           </div>
         </div>
 
@@ -47,7 +51,9 @@
             placeholder="Entrez votre mot de passe"
           />
           <div *ngIf="submitted && f['password'].errors" class="error-message">
-            <span *ngIf="f['password'].errors?.['required']">Le mot de passe est requis</span>
+            <span *ngIf="f['password'].errors?.['required']"
+              >Le mot de passe est requis</span
+            >
           </div>
         </div>
 
@@ -60,7 +66,7 @@
         <!-- Lien vers inscription -->
         <div class="auth-footer">
           <p>
-            Pas encore de compte ? 
+            Pas encore de compte ?
             <a routerLink="/projects/register" class="auth-tab">S'inscrire</a>
           </p>
         </div>

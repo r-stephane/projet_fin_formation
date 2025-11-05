@@ -157,7 +157,6 @@ nav ul li {
   padding: 1rem 2rem;
   cursor: default;
   font-weight: 600;
-  border-bottom: 3px solid #1e5799;
   color: #1e5799;
   font-size: 1.1rem;
   text-align: center;
@@ -375,7 +374,7 @@ nav ul li {
 
 .footer-column h3 {
   margin-bottom: 1.5rem;
-  color: #cce7ff;
+  color: #187fd9;
   font-size: 1.2rem;
   font-weight: 600;
 }
@@ -391,7 +390,7 @@ nav ul li {
 }
 
 .footer-column ul li a {
-  color: #ddd;
+  color: #1f0101;
   text-decoration: none;
   transition: all 0.3s ease;
   display: inline-block;
@@ -405,8 +404,8 @@ nav ul li {
 .copyright {
   text-align: center;
   padding-top: 2rem;
-  border-top: 1px solid #121920;
-  color: #151313;
+  border-top: 1px solid #4d5454dc;
+  color: #beafafe7;
   font-size: 0.9rem;
 }
 
