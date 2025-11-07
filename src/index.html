@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Plateforme Gaz Abéché</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'fr',
+        includedLanguages: 'fr,ar',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+      
+      console.log('Google Translate initialisé');
+    }
+    
+    function triggerTranslation(lang) {
+      const select = document.querySelector('.goog-te-combo');
+      if (select) {
+        select.value = lang;
+        select.dispatchEvent(new Event('change'));
+        console.log('Traduction déclenchée vers:', lang);
+        return true;
+      }
+      return false;
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  
+  <style>
+    /* Masquer complètement Google Translate UI */
+    .goog-te-banner-frame {
+      display: none !important;
+    }
+    .goog-te-gadget {
+      display: none !important;
+    }
+    .goog-logo-link {
+      display: none !important;
+    }
+    .goog-te-gadget span {
+      display: none !important;
+    }
+    .skiptranslate {
+      display: none !important;
+    }
+    .goog-te-combo {
+      display: none !important;
+    }
+    
+    /* Styles pour le RTL */
+    [dir="rtl"] {
+      text-align: right;
+    }
+    [dir="rtl"] .container {
+      margin-right: auto;
+      margin-left: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Element pour Google Translate - IMPORTANT: ne pas cacher -->
+  <div id="google_translate_element"></div>
+  
+  <app-root></app-root>
+
+  <script>
+    // Script pour la traduction globale
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM chargé, initialisation traduction');
+      
+      // Fonction pour forcer la traduction
+      window.forceTranslate = function(lang) {
+        console.log('Tentative de traduction vers:', lang);
+        
+        // Essayer plusieurs fois car Google Translate peut être lent à charger
+        let attempts = 0;
+        const maxAttempts = 10;
+        
+        const tryTranslate = setInterval(() => {
+          attempts++;
+          const select = document.querySelector('.goog-te-combo');
+          
+          if (select) {
+            console.log('Sélecteur trouvé, traduction en cours...');
+            select.value = lang;
+            select.dispatchEvent(new Event('change'));
+            
+            // Appliquer les styles RTL immédiatement
+            if (lang === 'ar') {
+              document.documentElement.dir = 'rtl';
+              document.documentElement.lang = 'ar';
+              document.body.style.fontFamily = 'Arial, sans-serif';
+              console.log('Style RTL appliqué');
+            } else {
+              document.documentElement.dir = 'ltr';
+              document.documentElement.lang = 'fr';
+              document.body.style.fontFamily = '';
+            }
+            
+            localStorage.setItem('preferredLanguage', lang);
+            clearInterval(tryTranslate);
+            console.log('Traduction réussie vers:', lang);
+          }
+          
+          if (attempts >= maxAttempts) {
+            clearInterval(tryTranslate);
+            console.log('Échec de la traduction après', maxAttempts, 'tentatives');
+            // Recharger la page comme fallback
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        }, 500);
+      };
+
+      // Appliquer la langue sauvegardée au chargement
+      const savedLanguage = localStorage.getItem('preferredLanguage');
+      console.log('Langue sauvegardée:', savedLanguage);
+      
+      if (savedLanguage === 'ar') {
+        // Attendre que Google Translate soit chargé
+        setTimeout(() => {
+          window.forceTranslate('ar');
+        }, 2000);
+      }
+
+      // Masquer les éléments Google périodiquement
+      setInterval(() => {
+        const elements = document.querySelectorAll('.goog-te-banner-frame, .skiptranslate');
+        elements.forEach(el => el.style.display = 'none');
+      }, 1000);
+    });
+
+    // Gestion des erreurs de chargement
+    window.onerror = function(msg, url, lineNo, columnNo, error) {
+      if (msg.includes('google') || msg.includes('translate')) {
+        console.error('Erreur Google Translate:', msg);
+      }
+    };
+  </script>
+</body>
+</html>

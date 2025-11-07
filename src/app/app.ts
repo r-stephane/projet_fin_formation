@@ -19,5 +19,5 @@ import { ReactiveFormsModule } from '@angular/forms';
   styles: ``,
 })
 export class App {
-  protected title = 'eau-gaz';
+  protected title = 'Gaz';
 }

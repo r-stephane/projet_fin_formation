@@ -69,7 +69,6 @@ interface TranslationKeys {
 
 interface Translations {
   fr: TranslationKeys;
-  ar: TranslationKeys;
 }
 
 @Component({
@@ -81,7 +80,7 @@ interface Translations {
 export class Dashboard {
   newThreadTitle: string = '';
   newThreadMessage: string = '';
-  currentLanguage: 'fr' | 'ar' = 'fr';
+  currentLanguage: 'fr' = 'fr';
 
   // Dictionnaire de traduction avec typage strict
   translations: Translations = {
@@ -146,68 +145,6 @@ export class Dashboard {
       rapports: 'Rapports',
       contactsUtiles: 'Contacts utiles',
       copyright: '© 2025 Plateforme Eau & Gaz Abéché. Tous droits réservés.'
-    },
-    ar: {
-      // Navigation
-      accueil: 'الرئيسية',
-      problemes: 'المشاكل',
-      discussion: 'النقاش',
-      solutions: 'الحلول',
-      contact: 'اتصل بنا',
-      sinscrire: 'سجل',
-      arabe: 'Français',
-
-      // Hero section
-      heroTitle: 'معاً، نحل مشاكل الغاز في أبيشي',
-      heroDescription: 'شارك تجاربك، اقترح حلولاً وكن جزءاً من تحسين الوصول إلى الغاز في مجتمعنا.',
-      participer: 'شارك في النقاش',
-
-      // Problèmes section
-      problemesTitle: 'المشاكل التي نواجهها',
-      penurieTitre: 'نقص الغاز',
-      penurieDesc: 'تعاني العديد من أحياء أبيشي من نقص متكرر وطويل في الغاز، مما يؤثر على الحياة اليومية للسكان.',
-      accesTitre: 'وصول محدود إلى الغاز',
-      accesDesc: 'غالباً ما يصعب العثور على غاز البوتان أو يُباع بأسعار مفرطة، مما ي迫使 العائلات على استخدام حطب الوقود.',
-      coutsTitre: 'تكاليف مرتفعة',
-      coutsDesc: 'يمثل سعر الغاز حصة كبيرة من ميزانية الأسر، خاصة للعائلات المتواضعة.',
-
-      // Discussion section
-      discussionTitle: 'مساحة النقاش',
-      partagerExperience: 'شارك تجربتك',
-      titreMessage: 'عنوان الرسالة',
-      placeholderTitre: 'أعط عنواناً لرسالتك',
-      votreMessage: 'رسالتك',
-      placeholderMessage: 'صف مشكلتك أو شارك تجربتك...',
-      publier: 'نشر',
-      derniersEchanges: 'آخر التبادلات',
-      jaime: 'أعجبني',
-      commentaires: 'تعليقات',
-      ajouterCommentaire: 'أضف تعليقاً...',
-      commenter: 'علق',
-      aucunCommentaire: 'لا توجد تعليقات حتى الآن. كن أول من يتفاعل!',
-      aucuneDiscussion: 'لا توجد مناقشات حتى الآن. كن أول من ينشر!',
-
-      // Stats section
-      impactTitle: 'تأثير المجتمع',
-      participants: 'مشاركون',
-      discussions: 'مناقشات',
-      solutionsProposees: 'حلول مقترحة',
-      joursEngagement: 'أيام المشاركة',
-
-      // CTA section
-      ctaTitle: 'انضم إلى مجتمعنا',
-      ctaDescription: 'معاً، يمكننا إحداث فرق لتحسين الوصول إلى الغاز في أبيشي.',
-      sinscrireMaintenant: 'سجل الآن',
-
-      // Footer
-      apropos: 'حول',
-      notreMission: 'مهمتنا',
-      equipe: 'الفريق',
-      partenaires: 'الشركاء',
-      ressources: 'موارد',
-      rapports: 'تقارير',
-      contactsUtiles: 'جهات اتصال مفيدة',
-      copyright: '© 2025 منصة الماء والغاز أبيشي. جميع الحقوق محفوظة.'
     }
   };
 
@@ -265,21 +202,16 @@ export class Dashboard {
 
   // Fonction pour basculer la langue
   toggleLanguage(): void {
-    this.currentLanguage = this.currentLanguage === 'fr' ? 'ar' : 'fr';
+    // Garder uniquement le français
+    this.currentLanguage = 'fr';
     this.applyLanguage();
   }
 
   // Fonction pour appliquer la langue sélectionnée
   applyLanguage(): void {
-    if (this.currentLanguage === 'ar') {
-      document.documentElement.dir = 'rtl';
-      document.documentElement.lang = 'ar';
-      document.documentElement.style.fontFamily = 'Arial, sans-serif';
-    } else {
-      document.documentElement.dir = 'ltr';
-      document.documentElement.lang = 'fr';
-      document.documentElement.style.fontFamily = '';
-    }
+    document.documentElement.dir = 'ltr';
+    document.documentElement.lang = 'fr';
+    document.documentElement.style.fontFamily = '';
     
     // Sauvegarder la préférence
     localStorage.setItem('preferredLanguage', this.currentLanguage);
@@ -293,7 +225,7 @@ export class Dashboard {
   ngOnInit() {
     // Récupérer la langue sauvegardée
     const savedLanguage = localStorage.getItem('preferredLanguage');
-    if (savedLanguage === 'fr' || savedLanguage === 'ar') {
+    if (savedLanguage === 'fr') {
       this.currentLanguage = savedLanguage;
       this.applyLanguage();
     }
@@ -303,7 +235,7 @@ export class Dashboard {
     if (this.newThreadTitle && this.newThreadMessage) {
       const newThread = {
         id: this.threads.length + 1,
-        author: this.currentLanguage === 'fr' ? 'Vous' : 'أنت',
+        author: 'Vous',
         date: new Date().toISOString().split('T')[0],
         title: this.newThreadTitle,
         content: this.newThreadMessage,
@@ -341,7 +273,7 @@ export class Dashboard {
     if (thread && thread.newComment) {
       const newComment = {
         id: thread.comments.length + 1,
-        author: this.currentLanguage === 'fr' ? 'Vous' : 'أنت',
+        author: 'Vous',
         date: new Date().toISOString().split('T')[0],
         content: thread.newComment
       };
