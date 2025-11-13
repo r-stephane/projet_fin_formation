@@ -1,9 +1,84 @@
 <section class="solutions-section">
+  <nav class="main-nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a routerLink="/projects/dashboard" class="nav-link btn-dashboard">
+          {{ t('accueil') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/problemes" class="nav-link btn-problemes">
+          {{ t('problemes') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/discussion" class="nav-link btn-discussion">
+          {{ t('discussion') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/solutions" class="nav-link btn-solutions active">
+          {{ t('solutions') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/contact" class="nav-link btn-contact">
+          {{ t('contact') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <button type="button" class="nav-link btn-translate" (click)="toggleLanguage()">
+          <span class="language-text">{{ t('arabe') }}</span>
+          <span class="language-flag">{{ currentLanguage === 'fr' ? '🇸🇦' : '🇫🇷' }}</span>
+        </button>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/register" class="nav-link btn-register">
+          {{ t('sinscrire') }}
+        </a>
+      </li>
+    </ul>
+  </nav>
+
   <div class="container">
-    <h2>Solutions Proposées</h2>
+    <h2>{{ t('solutions_proposees') || 'Solutions proposées' }}</h2>
     <ul class="solutions-list">
-      <li>🔥 Subvention sur le prix du gaz pour les familles modestes.</li>
-      <li>🔧 Réparation des conduites principales dans les quartiers touchés.</li>
+      <li>🔥 {{ t('subvention_gaz') || 'Subvention sur le prix du gaz pour les familles modestes.' }}</li>
+      <li>🔧 {{ t('reparation_conduites') || 'Réparation des conduites principales dans les quartiers touchés.' }}</li>
     </ul>
   </div>
 </section>
+
+<footer class="auth-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-column animate-fade-up">
+        <h3>{{ t('apropos') }}</h3>
+        <ul>
+          <li><a href="#" class="link-hover">{{ t('notreMission') }}</a></li>
+          <li><a href="#" class="link-hover">{{ t('equipe') }}</a></li>
+          <li><a href="#" class="link-hover">{{ t('partenaires') }}</a></li>
+        </ul>
+      </div>
+      <div class="footer-column animate-fade-up delay-1">
+        <h3>{{ t('ressources') }}</h3>
+        <ul>
+          <li><a href="#" class="link-hover">{{ t('rapports') }}</a></li>
+          <li><a href="#" class="link-hover">{{ t('solutionsProposees') }}</a></li>
+          <li><a href="#" class="link-hover">{{ t('contactsUtiles') }}</a></li>
+        </ul>
+      </div>
+      <div class="footer-column animate-fade-up delay-2">
+        <h3>{{ t('contact') }}</h3>
+        <ul>
+          <li>Email: contact@gazabeché.td</li>
+          <li>Téléphone: +235 86 44 51 10</li>
+          <li>Abéché, Tchad</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright animate-fade-in">
+      <p>{{ t('copyright') }}</p>
+    </div>
+  </div>
+</footer>

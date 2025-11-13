@@ -1,36 +1,114 @@
 <section class="contact-section">
+  <nav class="main-nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a routerLink="/projects/dashboard" class="nav-link btn-dashboard">
+          {{ t('accueil') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/problemes" class="nav-link btn-problemes">
+          {{ t('problemes') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/discussion" class="nav-link btn-discussion">
+          {{ t('discussion') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/solutions" class="nav-link btn-solutions">
+          {{ t('solutions') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/contact" class="nav-link btn-contact active">
+          {{ t('contact') }}
+        </a>
+      </li>
+
+      <!-- Bouton de traduction -->
+      <li class="nav-item">
+        <button type="button" class="nav-link btn-translate" (click)="toggleLanguage()">
+          <span class="language-text">{{ t('arabe') }}</span>
+          <span class="language-flag">{{ currentLanguage === 'fr' ? '🇸🇦' : '🇫🇷' }}</span>
+        </button>
+      </li>
+
+      <li class="nav-item">
+        <a routerLink="/projects/register" class="nav-link btn-register">
+          {{ t('sinscrire') }}
+        </a>
+      </li>
+    </ul>
+  </nav>
+
   <div class="container">
-    <h2 class="section-title">Contactez-nous</h2>
+    <h2 class="section-title">{{ t('contactez_nous') || 'Contactez-nous' }}</h2>
     <p class="contact-intro">
-      Nous serions ravis de recevoir vos messages, suggestions ou préoccupations concernant  le gaz à Abéché.
+      {{ t('intro_contact') || 'Nous serions ravis de recevoir vos messages, suggestions ou préoccupations concernant le gaz à Abéché.' }}
     </p>
 
     <div class="contact-info">
       <div class="info-item">
-        <strong>Email :</strong> {{ email }}
+        <strong>{{ t('email') || 'Email' }} :</strong> {{ email }}
       </div>
       <div class="info-item">
-        <strong>Téléphone :</strong> {{ phone }}
+        <strong>{{ t('telephone') || 'Téléphone' }} :</strong> {{ phone }}
       </div>
       <div class="info-item">
-        <strong>Adresse :</strong> {{ location }}
+        <strong>{{ t('adresse') || 'Adresse' }} :</strong> {{ location }}
       </div>
     </div>
 
-    <form class="contact-form">
+    <form class="contact-form" (ngSubmit)="sendMessage()">
       <div class="form-group">
-        <label for="name">Nom complet</label>
-        <input type="text" id="name" placeholder="Votre nom" required>
+        <label for="name">{{ t('nom_complet') || 'Nom complet' }}</label>
+        <input type="text" id="name" [(ngModel)]="contact.name" name="name" placeholder="{{ t('votre_nom') || 'Votre nom' }}" required>
       </div>
       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Votre email" required>
+        <label for="email">{{ t('email') || 'Email' }}</label>
+        <input type="email" id="email" [(ngModel)]="contact.email" name="email" placeholder="{{ t('votre_email') || 'Votre email' }}" required>
       </div>
       <div class="form-group">
-        <label for="message">Message</label>
-        <textarea id="message" rows="5" placeholder="Votre message..." required></textarea>
+        <label for="message">{{ t('message') || 'Message' }}</label>
+        <textarea id="message" [(ngModel)]="contact.message" name="message" rows="5" placeholder="{{ t('votre_message') || 'Votre message...' }}" required></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Envoyer</button>
+      <button type="submit" class="btn btn-primary">{{ t('envoyer') || 'Envoyer' }}</button>
     </form>
   </div>
 </section>
+
+<footer class="auth-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column animate-fade-up">
+          <h3>{{ t('apropos') }}</h3>
+          <ul>
+            <li><a href="#" class="link-hover">{{ t('notreMission') }}</a></li>
+            <li><a href="#" class="link-hover">{{ t('equipe') }}</a></li>
+            <li><a href="#" class="link-hover">{{ t('partenaires') }}</a></li>
+          </ul>
+        </div>
+        <div class="footer-column animate-fade-up delay-1">
+          <h3>{{ t('ressources') }}</h3>
+          <ul>
+            <li><a href="#" class="link-hover">{{ t('rapports') }}</a></li>
+            <li><a href="#" class="link-hover">{{ t('solutionsProposees') }}</a></li>
+            <li><a href="#" class="link-hover">{{ t('contactsUtiles') }}</a></li>
+          </ul>
+        </div>
+        <div class="footer-column animate-fade-up delay-2">
+          <h3>{{ t('contact') }}</h3>
+          <ul>
+            <li>Email: contact@gazabeché.td</li>
+            <li>Téléphone: +235 86 44 51 10</li>
+            <li>Abéché, Tchad</li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright animate-fade-in">
+        <p>{{ t('copyright') }}</p>
+      </div>
+    </div>
+  </footer>

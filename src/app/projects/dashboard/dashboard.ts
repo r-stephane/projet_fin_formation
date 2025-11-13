@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterLink, RouterModule, } from '@angular/router';
 
 // Interface pour les traductions
 interface TranslationKeys {

@@ -1,16 +1,236 @@
 <section class="discussion-section">
-  <div class="container">
-    <h2>Espace de Discussion</h2>
-    <form (ngSubmit)="postMessage()" class="discussion-form">
-      <textarea [(ngModel)]="newMessage" name="message" placeholder="Partagez votre expérience..." required></textarea>
-      <button type="submit" class="btn">Publier</button>
-    </form>
+  <nav class="main-nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a routerLink="/projects/dashboard" class="nav-link btn-dashboard">
+          {{ t('accueil') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/problemes" class="nav-link btn-problemes">
+          {{ t('problemes') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/discussion" class="nav-link btn-discussion active">
+          {{ t('discussion') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/solutions" class="nav-link btn-solutions">
+          {{ t('solutions') }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/projects/contact" class="nav-link btn-contact">
+          {{ t('contact') }}
+        </a>
+      </li>
 
-    <div class="messages">
-      <div *ngFor="let thread of threads" class="message">
-        <p><strong>{{ thread.author }}</strong> — <small>{{ thread.date }}</small></p>
-        <p>{{ thread.content }}</p>
+      <li class="nav-item">
+        <button type="button" class="nav-link btn-translate" (click)="toggleLanguage()">
+          <span class="language-text">{{ t('arabe') }}</span>
+          <span class="language-flag">
+            {{ currentLanguage === 'fr' ? '🇸🇦' : '🇫🇷' }}
+          </span>
+        </button>
+      </li>
+
+      <li class="nav-item">
+        <a routerLink="/projects/register" class="nav-link btn-register">
+          {{ t('sinscrire') }}
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="discussion-container">
+    <div class="discussion-header">
+      <div class="header-content">
+        <h1>{{ t('espace_discussion') }}</h1>
+        <div class="online-users">
+          <span class="online-dot"></span>
+          {{ onlineUsers }} {{ t('utilisateurs_connectes') }}
+        </div>
       </div>
+    </div>
+
+    <div class="discussion-layout">
+      <aside class="categories-sidebar">
+        <div class="categories-list">
+          <div *ngFor="let category of categories" 
+               class="category-item" 
+               [class.active]="category.isActive"
+               (click)="setActiveCategory(category.id)">
+            <span class="category-icon">{{ category.icon }}</span>
+            <div class="category-info">
+              <strong>{{ category.name }}</strong>
+              <span class="message-count">{{ category.messageCount }} messages</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tags-filter">
+          <h4>Filtrer par tags</h4>
+          <div class="tags-list">
+            <span *ngFor="let tag of availableTags" 
+                  class="tag" 
+                  [class.active]="selectedTags.includes(tag)"
+                  (click)="toggleTag(tag)">
+              {{ tag }}
+            </span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="discussion-main">
+        <div class="search-bar">
+          <input type="text" 
+                 [(ngModel)]="searchTerm" 
+                 [placeholder]="t('rechercher')"
+                 class="search-input">
+        </div>
+
+        <form [formGroup]="messageForm" (ngSubmit)="postMessage()" class="new-message-form">
+          <div class="form-header">
+            <select formControlName="category" class="category-select">
+              <option *ngFor="let category of categories" [value]="category.id">
+                {{ category.name }}
+              </option>
+            </select>
+          </div>
+          
+          <textarea
+            formControlName="content"
+            [placeholder]="t('partagez_experience')"
+            class="message-textarea"
+          ></textarea>
+
+          <div class="form-actions">
+            <div class="tags-selection">
+              <span *ngFor="let tag of availableTags" 
+                    class="tag-option"
+                    [class.selected]="isTagSelectedInForm(tag)"
+                    (click)="toggleTagForm(tag)">
+                {{ tag }}
+              </span>
+            </div>
+            <button type="submit" class="btn-primary" [disabled]="!messageForm.valid">
+              {{ t('publier') }}
+            </button>
+          </div>
+        </form>
+
+        <div class="messages-container">
+          <div *ngFor="let message of filteredMessages" class="message-thread">
+            <div class="message-card">
+              <div class="message-header">
+                <div class="user-info">
+                  <div class="user-avatar">
+                    {{ message.author.charAt(0) }}
+                  </div>
+                  <div class="user-details">
+                    <strong>{{ message.author }}</strong>
+                    <small>{{ message.date | date: 'dd/MM/yyyy à HH:mm' }}</small>
+                  </div>
+                </div>
+                <div class="message-tags">
+                  <span *ngFor="let tag of message.tags" class="message-tag">
+                    {{ tag }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="message-content">
+                {{ message.content }}
+              </div>
+
+              <div class="message-actions">
+                <button class="btn-like" (click)="likeMessage(message.id)">
+                  👍 {{ message.likes }}
+                </button>
+                <button class="btn-dislike" (click)="dislikeMessage(message.id)">
+                  👎 {{ message.dislikes }}
+                </button>
+                <button class="btn-reply" (click)="toggleReplyForm(message.id)">
+                  💬 {{ t('repondre') }} ({{ message.replies.length }})
+                </button>
+              </div>
+
+              <form *ngIf="replyForms[message.id] && isReplyFormVisible(message.id)" 
+                    [formGroup]="replyForms[message.id]" 
+                    (ngSubmit)="postReply(message.id)"
+                    class="reply-form">
+                <textarea
+                  formControlName="content"
+                  placeholder="Votre réponse..."
+                  class="reply-textarea"
+                ></textarea>
+                <button type="submit" class="btn-secondary" [disabled]="!replyForms[message.id].valid">
+                  {{ t('repondre') }}
+                </button>
+              </form>
+
+              <div class="replies-container">
+                <div *ngFor="let reply of message.replies" class="reply-message">
+                  <div class="reply-header">
+                    <div class="user-avatar small">
+                      {{ reply.author.charAt(0) }}
+                    </div>
+                    <strong>{{ reply.author }}</strong>
+                    <small>{{ reply.date | date: 'dd/MM/yyyy à HH:mm' }}</small>
+                  </div>
+                  <div class="reply-content">
+                    {{ reply.content }}
+                  </div>
+                  <div class="reply-actions">
+                    <button class="btn-like small" (click)="likeMessage(reply.id)">
+                      👍 {{ reply.likes }}
+                    </button>
+                    <button class="btn-dislike small" (click)="dislikeMessage(reply.id)">
+                      👎 {{ reply.dislikes }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   </div>
 </section>
+
+<footer class="auth-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-column animate-fade-up">
+        <h3>{{ t('apropos') }}</h3>
+        <ul>
+          <li><a href="#" class="link-hover">{{ t('notreMission') }}</a></li>
+          <li><a href="#" class="link-hover">{{ t('equipe') }}</a></li>
+          <li><a href="#" class="link-hover">{{ t('partenaires') }}</a></li>
+        </ul>
+      </div>
+      <div class="footer-column animate-fade-up delay-1">
+        <h3>{{ t('ressources') }}</h3>
+        <ul>
+          <li><a href="#" class="link-hover">{{ t('rapports') }}</a></li>
+          <li><a href="#" class="link-hover">{{ t('solutionsProposees') }}</a></li>
+          <li><a href="#" class="link-hover">{{ t('contactsUtiles') }}</a></li>
+        </ul>
+      </div>
+      <div class="footer-column animate-fade-up delay-2">
+        <h3>{{ t('contact') }}</h3>
+        <ul>
+          <li>Email: contact@gazabeche.td</li>
+          <li>Téléphone: +235 86 44 51 10</li>
+          <li>Abéché, Tchad</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright animate-fade-in">
+      <p>{{ t('copyright') }}</p>
+    </div>
+  </div>
+</footer>

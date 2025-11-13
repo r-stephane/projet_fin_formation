@@ -1,10 +1,18 @@
 <!-- Header -->
 <header class="auth-header">
   <div class="container header-content">
-    <div class="logo" routerLink="/">
+    <div class="logo" routerLink="projects/dashboard">
       <div class="logo-icon"></div>
       <h1>Gaz Abéché</h1>
     </div>
+
+    <!-- Bouton de traduction -->
+    <button class="btn-translate" (click)="toggleLanguage()">
+      <span class="language-text">{{ t('arabe') }}</span>
+      <span class="language-flag">
+        {{ currentLanguage === 'fr' ? '🇸🇦' : '🇫🇷' }}
+      </span>
+    </button>
   </div>
 </header>
 
@@ -13,7 +21,7 @@
   <div class="container">
     <div class="auth-container">
       <div class="auth-tabs">
-        <div class="auth-tab active">Connexion</div>
+        <div class="auth-tab active">{{ t('connexion') || 'Connexion' }}</div>
       </div>
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
@@ -22,52 +30,46 @@
 
         <!-- Email -->
         <div class="form-group">
-          <label for="email">Email</label>
+          <label for="email">{{ t('email') || 'Email' }}</label>
           <input
             type="email"
             id="email"
             formControlName="email"
             [class.error]="submitted && f['email'].errors"
-            placeholder="Entrez votre email"
+            [placeholder]="t('entrez_email') || 'Entrez votre email'"
           />
           <div *ngIf="submitted && f['email'].errors" class="error-message">
-            <span *ngIf="f['email'].errors?.['required']"
-              >L'email est requis</span
-            >
-            <span *ngIf="f['email'].errors?.['email']"
-              >Format d'email invalide</span
-            >
+            <span *ngIf="f['email'].errors?.['required']">{{ t('email_requis') || "L'email est requis" }}</span>
+            <span *ngIf="f['email'].errors?.['email']">{{ t('email_invalide') || "Format d'email invalide" }}</span>
           </div>
         </div>
 
         <!-- Mot de passe -->
         <div class="form-group">
-          <label for="password">Mot de passe</label>
+          <label for="password">{{ t('mot_de_passe') || 'Mot de passe' }}</label>
           <input
             type="password"
             id="password"
             formControlName="password"
             [class.error]="submitted && f['password'].errors"
-            placeholder="Entrez votre mot de passe"
+            [placeholder]="t('entrez_mot_de_passe') || 'Entrez votre mot de passe'"
           />
           <div *ngIf="submitted && f['password'].errors" class="error-message">
-            <span *ngIf="f['password'].errors?.['required']"
-              >Le mot de passe est requis</span
-            >
+            <span *ngIf="f['password'].errors?.['required']">{{ t('mdp_requis') || 'Le mot de passe est requis' }}</span>
           </div>
         </div>
 
         <!-- Bouton de soumission -->
         <button type="submit" class="btn btn-primary" [disabled]="loading">
           <span *ngIf="loading" class="spinner"></span>
-          {{ loading ? 'Connexion...' : 'Se connecter' }}
+          {{ loading ? t('connexion_en_cours') || 'Connexion...' : t('se_connecter') || 'Se connecter' }}
         </button>
 
         <!-- Lien vers inscription -->
         <div class="auth-footer">
           <p>
-            Pas encore de compte ?
-            <a routerLink="/projects/register" class="auth-tab">S'inscrire</a>
+            {{ t('pas_de_compte') || 'Pas encore de compte ?' }}
+            <a routerLink="/projects/register" class="auth-tab">{{ t('sinscrire') || "S'inscrire" }}</a>
           </p>
         </div>
       </form>
@@ -80,32 +82,32 @@
   <div class="container">
     <div class="footer-content">
       <div class="footer-column">
-        <h3>À propos</h3>
+        <h3>{{ t('a_propos') || 'À propos' }}</h3>
         <ul>
-          <li><a href="#">Notre mission</a></li>
-          <li><a href="#">Équipe</a></li>
-          <li><a href="#">Partenaires</a></li>
+          <li><a href="#">{{ t('mission') || 'Notre mission' }}</a></li>
+          <li><a href="#">{{ t('equipe') || 'Équipe' }}</a></li>
+          <li><a href="#">{{ t('partenaires') || 'Partenaires' }}</a></li>
         </ul>
       </div>
       <div class="footer-column">
-        <h3>Ressources</h3>
+        <h3>{{ t('ressources') || 'Ressources' }}</h3>
         <ul>
-          <li><a href="#">Rapports</a></li>
-          <li><a href="#">Solutions proposées</a></li>
-          <li><a href="#">Contacts utiles</a></li>
+          <li><a href="#">{{ t('rapports') || 'Rapports' }}</a></li>
+          <li><a href="#">{{ t('solutions_proposees') || 'Solutions proposées' }}</a></li>
+          <li><a href="#">{{ t('contacts_utiles') || 'Contacts utiles' }}</a></li>
         </ul>
       </div>
       <div class="footer-column">
-        <h3>Contact</h3>
+        <h3>{{ t('contact') || 'Contact' }}</h3>
         <ul>
           <li>Email: contact@eaugazabeche.td</li>
-          <li>Téléphone: +235 86 44 51 10</li>
+          <li>{{ t('telephone') || 'Téléphone' }}: +235 86 44 51 10</li>
           <li>Abéché, Tchad</li>
         </ul>
       </div>
     </div>
     <div class="copyright">
-      <p>&copy; 2025 Plateforme Gaz Abéché. Tous droits réservés.</p>
+      <p>&copy; 2025 {{ t('copyright') || 'Plateforme Gaz Abéché. Tous droits réservés.' }}</p>
     </div>
   </div>
 </footer>

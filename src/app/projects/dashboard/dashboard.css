@@ -87,17 +87,17 @@ section{padding:5rem 0}
 .stat-label{font-size:1.1rem;opacity:.9;font-weight:500}
 
 /* CTA & Footer */
-.cta{background:linear-gradient(135deg,#2c3e50 0%,#34495e 100%);color:#fff;text-align:center;padding:5rem 0}
+.cta{background:linear-gradient(135deg,#142b42 0%,#1069c2 100%);color:#fff;text-align:center;padding:5rem 0}
 .cta h2{font-size:2.5rem;margin-bottom:1rem;font-weight:700}
 .cta p{font-size:1.2rem;margin-bottom:2.5rem;opacity:.9;max-width:600px;margin:0 auto}
-.auth-footer{background:#2c3e50;color:#fff;padding:3rem 0 1rem}
+.auth-footer{background:#1370cd;color:#fff;padding:3rem 0 1rem}
 .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:3rem;margin-bottom:2rem}
-.footer-column h3{margin-bottom:1.5rem;color:#667eea;font-size:1.2rem;font-weight:600}
+.footer-column h3{margin-bottom:1.5rem;color:#fafafb;font-size:1.2rem;font-weight:600}
 .footer-column ul{list-style:none}
 .footer-column li{margin-bottom:.75rem}
-.footer-column a{color:#bdc3c7;text-decoration:none;transition:color .3s ease}
+.footer-column a{color:#fafcfd;text-decoration:none;transition:color .3s ease}
 .footer-column a:hover{color:#667eea}
-.copyright{text-align:center;padding-top:2rem;border-top:1px solid #34495e;color:#bdc3c7;font-size:.9rem}
+.copyright{text-align:center;padding-top:2rem;border-top:1px solid #191a1a;color:#f3f4f5;font-size:.9rem}
 
 /* Commentaires optimisés */
 .comments-section{margin-top:15px;padding-top:15px;border-top:1px solid #eee}
