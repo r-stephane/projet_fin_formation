@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './register.html',
   styleUrls: ['./register.css']
 })
@@ -17,7 +18,7 @@ export class Register {
   success = '';
   currentLanguage: 'fr' | 'ar' = 'fr';
 
-  // ✅ Dictionnaire bilingue
+  //  Dictionnaire bilingue
   translations: any = {
     fr: {
       arabe: 'Arabe',
@@ -40,7 +41,7 @@ export class Register {
         confirmationRequise: 'La confirmation du mot de passe est requise',
         motDePasseNonIdentique: 'Les mots de passe ne correspondent pas'
       },
-      succes: 'Inscription réussie ! Vous pouvez maintenant vous connecter.'
+      succes: 'Inscription réussie ! Redirection vers la page de connexion...'
     },
     ar: {
       arabe: 'Français',
@@ -63,11 +64,12 @@ export class Register {
         confirmationRequise: 'تأكيد كلمة المرور مطلوب',
         motDePasseNonIdentique: 'كلمتا المرور غير متطابقتين'
       },
-      succes: 'تم التسجيل بنجاح! يمكنك الآن تسجيل الدخول.'
+      succes: 'تم التسجيل بنجاح! يتم التوجيه إلى صفحة تسجيل الدخول...'
     }
   };
 
-  constructor(private fb: FormBuilder) {
+  // Ajouter Router dans le constructor
+  constructor(private fb: FormBuilder, private router: Router) {
     this.registerForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -76,30 +78,49 @@ export class Register {
     }, { validators: this.passwordMatchValidator });
   }
 
-  // ✅ Fonction de traduction
+  //  Fonction de traduction
   t(key: string): string {
-    return this.translations[this.currentLanguage][key] || key;
+    const keys = key.split('.');
+    let value = this.translations[this.currentLanguage];
+    
+    for (const k of keys) {
+      value = value?.[k];
+    }
+    
+    return value || key;
   }
 
-  // ✅ Bascule entre FR ↔ AR
+  // Bascule entre FR ↔ AR
   toggleLanguage() {
     this.currentLanguage = this.currentLanguage === 'fr' ? 'ar' : 'fr';
-    document.dir = this.currentLanguage === 'ar' ? 'rtl' : 'ltr'; // sens du texte
+    document.dir = this.currentLanguage === 'ar' ? 'rtl' : 'ltr';
+    
+    // Sauvegarder la préférence linguistique
+    localStorage.setItem('preferredLanguage', this.currentLanguage);
   }
 
-  // ✅ Vérifie que les mots de passe correspondent
+  ngOnInit() {
+    // Récupérer la langue sauvegardée
+    const savedLanguage = localStorage.getItem('preferredLanguage') as 'fr' | 'ar';
+    if (savedLanguage) {
+      this.currentLanguage = savedLanguage;
+      document.dir = this.currentLanguage === 'ar' ? 'rtl' : 'ltr';
+    }
+  }
+
+  //  Vérifie que les mots de passe correspondent
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password')?.value;
     const confirm = form.get('confirmPassword')?.value;
     return password === confirm ? null : { passwordMismatch: true };
   }
 
-  // ✅ Raccourci pour accéder aux contrôles
+  // Raccourci pour accéder aux contrôles
   get f() {
     return this.registerForm.controls;
   }
 
-  // ✅ Soumission du formulaire
+  //  Soumission du formulaire avec redirection
   onSubmit() {
     this.submitted = true;
     this.error = '';
@@ -109,12 +130,30 @@ export class Register {
 
     this.loading = true;
 
-    // Simulation d’un appel API
+    // Simulation d'un appel API
     setTimeout(() => {
       this.loading = false;
-      this.success = this.translations[this.currentLanguage].succes;
-      this.registerForm.reset();
-      this.submitted = false;
+      this.success = this.t('succes');
+      
+      // Sauvegarder les données utilisateur (simulation)
+      const userData = {
+        fullName: this.registerForm.get('fullName')?.value,
+        email: this.registerForm.get('email')?.value,
+        registeredAt: new Date().toISOString()
+      };
+      
+      localStorage.setItem('userData', JSON.stringify(userData));
+      
+      // Redirection vers la page de login après 2 secondes
+      setTimeout(() => {
+        this.router.navigate(['projects/login']);
+      }, 2000);
+      
     }, 1500);
+  }
+
+  //  Redirection immédiate vers login
+  redirectToLogin() {
+    this.router.navigate(['projects/login']);
   }
 }

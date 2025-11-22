@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterModule, } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 
 // Interface pour les traductions
 interface TranslationKeys {
@@ -69,18 +69,20 @@ interface TranslationKeys {
 
 interface Translations {
   fr: TranslationKeys;
+  ar: TranslationKeys;
 }
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css'],
+  standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, RouterLink] 
 })
-export class Dashboard {
+export class Dashboard implements OnInit {
   newThreadTitle: string = '';
   newThreadMessage: string = '';
-  currentLanguage: 'fr' = 'fr';
+  currentLanguage: 'fr' | 'ar' = 'fr';
 
   // Dictionnaire de traduction avec typage strict
   translations: Translations = {
@@ -145,6 +147,68 @@ export class Dashboard {
       rapports: 'Rapports',
       contactsUtiles: 'Contacts utiles',
       copyright: '© 2025 Plateforme Eau & Gaz Abéché. Tous droits réservés.'
+    },
+    ar: {
+      // Navigation
+      accueil: 'الرئيسية',
+      problemes: 'المشاكل',
+      discussion: 'النقاش',
+      solutions: 'الحلول',
+      contact: 'اتصل',
+      sinscrire: 'تسجيل',
+      arabe: 'Français',
+
+      // Hero section
+      heroTitle: 'معاً نحل مشاكل الغاز في أبشي',
+      heroDescription: 'شارك تجاربك، اقترح حلولاً وكن جزءاً من تحسين الوصول إلى الغاز في مجتمعنا.',
+      participer: 'المشاركة في النقاش',
+
+      // Problèmes section
+      problemesTitle: 'المشاكل التي نواجهها',
+      penurieTitre: 'نقص الغاز',
+      penurieDesc: 'تعاني العديد من أحياء أبشي من نقص متكرر وطويل في الغاز، مما يؤثر على الحياة اليومية للسكان.',
+      accesTitre: 'وصول محدود إلى الغاز',
+      accesDesc: 'غالباً ما يكون من الصعب العثور على غاز البوتان أو يتم بيعه بأسعار مفرطة، مما ي迫使 العائلات على استخدام حطب الوقود.',
+      coutsTitre: 'تكاليف مرتفعة',
+      coutsDesc: 'يمثل سعر الغاز جزءاً كبيراً من ميزانية الأسر، خاصة للعائلات المتواضعة.',
+
+      // Discussion section
+      discussionTitle: 'مساحة النقاش',
+      partagerExperience: 'شارك تجربتك',
+      titreMessage: 'عنوان الرسالة',
+      placeholderTitre: 'أعط عنواناً لرسالتك',
+      votreMessage: 'رسالتك',
+      placeholderMessage: 'صف مشكلتك أو شارك تجربتك...',
+      publier: 'نشر',
+      derniersEchanges: 'آخر التبادلات',
+      jaime: 'أعجبني',
+      commentaires: 'تعليقات',
+      ajouterCommentaire: 'أضف تعليقاً...',
+      commenter: 'تعليق',
+      aucunCommentaire: 'لا توجد تعليقات حالياً. كن أول من يتفاعل!',
+      aucuneDiscussion: 'لا توجد مناقشات حالياً. كن أول من ينشر!',
+
+      // Stats section
+      impactTitle: 'تأثير المجتمع',
+      participants: 'مشارك',
+      discussions: 'مناقشة',
+      solutionsProposees: 'حل مقترح',
+      joursEngagement: 'يوم من المشاركة',
+
+      // CTA section
+      ctaTitle: 'انضم إلى مجتمعنا',
+      ctaDescription: 'معاً، يمكننا أن نحدث فرقاً لتحسين الوصول إلى الغاز في أبشي.',
+      sinscrireMaintenant: 'سجل الآن',
+
+      // Footer
+      apropos: 'حول',
+      notreMission: 'مهمتنا',
+      equipe: 'الفريق',
+      partenaires: 'الشركاء',
+      ressources: 'الموارد',
+      rapports: 'التقارير',
+      contactsUtiles: 'جهات اتصال مفيدة',
+      copyright: '© 2025 منصة الماء والغاز أبشي. جميع الحقوق محفوظة.'
     }
   };
 
@@ -200,21 +264,41 @@ export class Dashboard {
   solutionsCount = 34;
   daysCount = 45;
 
+  ngOnInit() {
+    // Récupérer la langue sauvegardée
+    const savedLanguage = localStorage.getItem('preferredLanguage') as 'fr' | 'ar';
+    if (savedLanguage && (savedLanguage === 'fr' || savedLanguage === 'ar')) {
+      this.currentLanguage = savedLanguage;
+    }
+    this.applyLanguage();
+  }
+
   // Fonction pour basculer la langue
   toggleLanguage(): void {
-    // Garder uniquement le français
-    this.currentLanguage = 'fr';
+    this.currentLanguage = this.currentLanguage === 'fr' ? 'ar' : 'fr';
     this.applyLanguage();
   }
 
   // Fonction pour appliquer la langue sélectionnée
   applyLanguage(): void {
-    document.documentElement.dir = 'ltr';
-    document.documentElement.lang = 'fr';
-    document.documentElement.style.fontFamily = '';
+    const isRTL = this.currentLanguage === 'ar';
+    
+    // Appliquer la direction et la langue
+    document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+    document.documentElement.lang = this.currentLanguage;
+    
+    // Appliquer les styles de police
+    document.documentElement.style.fontFamily = isRTL 
+      ? '"Noto Sans Arabic", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif' 
+      : '';
     
     // Sauvegarder la préférence
     localStorage.setItem('preferredLanguage', this.currentLanguage);
+    
+    // Forcer le reflow pour s'assurer que les changements sont appliqués
+    document.body.style.display = 'none';
+    document.body.offsetHeight; // Trigger reflow
+    document.body.style.display = '';
   }
 
   // Obtenir la traduction avec typage strict
@@ -222,20 +306,11 @@ export class Dashboard {
     return this.translations[this.currentLanguage][key];
   }
 
-  ngOnInit() {
-    // Récupérer la langue sauvegardée
-    const savedLanguage = localStorage.getItem('preferredLanguage');
-    if (savedLanguage === 'fr') {
-      this.currentLanguage = savedLanguage;
-      this.applyLanguage();
-    }
-  }
-
   onPostThread(): void {
     if (this.newThreadTitle && this.newThreadMessage) {
       const newThread = {
         id: this.threads.length + 1,
-        author: 'Vous',
+        author: this.currentLanguage === 'fr' ? 'Vous' : 'أنت',
         date: new Date().toISOString().split('T')[0],
         title: this.newThreadTitle,
         content: this.newThreadMessage,
@@ -273,7 +348,7 @@ export class Dashboard {
     if (thread && thread.newComment) {
       const newComment = {
         id: thread.comments.length + 1,
-        author: 'Vous',
+        author: this.currentLanguage === 'fr' ? 'Vous' : 'أنت',
         date: new Date().toISOString().split('T')[0],
         content: thread.newComment
       };
