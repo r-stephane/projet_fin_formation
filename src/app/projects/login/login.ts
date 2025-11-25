@@ -1,84 +1,179 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    CommonModule, 
-    ReactiveFormsModule,
-    RouterLink 
-  ],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  styleUrls: ['./login.css'],
 })
 export class Login implements OnInit {
   loginForm: FormGroup;
-  loading = false;
   submitted = false;
+  loading = false;
   error = '';
+  currentLanguage = 'fr';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private router: Router
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
   ) {
-    this.loginForm = this.formBuilder.group({
+    this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 
-  ngOnInit(): void {
-    // Rediriger si déjà connecté
-    // NOTE: S'assurer que 'isLoggedIn()' existe dans AuthService et retourne un boolean.
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/dashboard']);
-    }
+  ngOnInit() {
+    this.initializeLanguage();
+    this.disableGoogleTranslate();
   }
 
-  get f() { return this.loginForm.controls; }
+  // Initialiser la langue
+  private initializeLanguage() {
+    const savedLanguage = localStorage.getItem('preferredLanguage') || 'fr';
+    this.currentLanguage = savedLanguage;
+    this.applyLanguageDirection();
+    console.log('Langue initialisée:', this.currentLanguage);
+  }
 
-  onSubmit(): void {
+  // Appliquer la direction RTL/LTR
+  private applyLanguageDirection() {
+    document.dir = this.currentLanguage === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = this.currentLanguage;
+  }
+
+  // Désactiver Google Translate
+  private disableGoogleTranslate() {
+    // Méthode 1: Meta tag (déjà dans index.html)
+    const meta = document.createElement('meta');
+    meta.name = 'google';
+    meta.content = 'notranslate';
+    document.head.appendChild(meta);
+
+    // Méthode 2: Attribut sur l'html
+    document.documentElement.setAttribute('translate', 'no');
+
+    // Méthode 3: Classe sur le body
+    document.body.classList.add('notranslate');
+  }
+
+  translations: any = {
+    fr: {
+      arabe: 'Arabe',
+      connexion: 'Connexion',
+      email: 'Email',
+      entrez_email: 'Entrez votre email',
+      email_requis: "L'email est requis",
+      email_invalide: "Format d'email invalide",
+      mot_de_passe: 'Mot de passe',
+      entrez_mot_de_passe: 'Entrez votre mot de passe',
+      mdp_requis: 'Le mot de passe est requis',
+      se_connecter: 'Se connecter',
+      connexion_en_cours: 'Connexion...',
+      pas_de_compte: 'Pas encore de compte ?',
+      sinscrire: "S'inscrire",
+      a_propos: 'À propos',
+      mission: 'Notre mission',
+      equipe: 'Équipe',
+      partenaires: 'Partenaires',
+      ressources: 'Ressources',
+      rapports: 'Rapports',
+      solutions_proposees: 'Solutions proposées',
+      contacts_utiles: 'Contacts utiles',
+      contact: 'Contact',
+      telephone: 'Téléphone',
+      copyright: 'Plateforme Gaz Abéché. Tous droits réservés.',
+    },
+    ar: {
+      arabe: 'فرنسية',
+      connexion: 'تسجيل الدخول',
+      email: 'البريد الإلكتروني',
+      entrez_email: 'أدخل بريدك الإلكتروني',
+      email_requis: 'البريد الإلكتروني مطلوب',
+      email_invalide: 'تنسيق البريد الإلكتروني غير صالح',
+      mot_de_passe: 'كلمة المرور',
+      entrez_mot_de_passe: 'أدخل كلمة المرور',
+      mdp_requis: 'كلمة المرور مطلوبة',
+      se_connecter: 'تسجيل الدخول',
+      connexion_en_cours: 'جارٍ الاتصال...',
+      pas_de_compte: 'ليس لديك حساب؟',
+      sinscrire: 'إنشاء حساب',
+      a_propos: 'حول',
+      mission: 'مهمتنا',
+      equipe: 'الفريق',
+      partenaires: 'الشركاء',
+      ressources: 'الموارد',
+      rapports: 'تقارير',
+      solutions_proposees: 'الحلول المقترحة',
+      contacts_utiles: 'جهات الاتصال المفيدة',
+      contact: 'اتصال',
+      telephone: 'الهاتف',
+      copyright: 'منصة غاز أبشي. جميع الحقوق محفوظة.',
+    },
+  };
+
+  get f() {
+    return this.loginForm.controls;
+  }
+
+  t(key: string): string {
+    return this.translations[this.currentLanguage]?.[key] || key;
+  }
+
+  toggleLanguage(): void {
+    this.currentLanguage = this.currentLanguage === 'fr' ? 'ar' : 'fr';
+    localStorage.setItem('preferredLanguage', this.currentLanguage);
+    this.applyLanguageDirection();
+  }
+
+  onSubmit() {
     this.submitted = true;
-    this.error = '';
-
-    if (this.loginForm.invalid) {
-      return;
-    }
+    if (this.loginForm.invalid) return;
 
     this.loading = true;
-    
-    // 1. Dégager les propriétés email et password de loginForm.value
-    const { email, password } = this.loginForm.value;
+    this.error = '';
 
-    // 2. S'abonner (subscribe) à l'Observable retourné par authService.login()
+   
+    const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
+
     this.authService.login(email, password).subscribe({
-      // Bloc 'next' : le login a réussi (selon Angular/HTTP)
       next: (response) => {
-        // NOTE: On suppose que la réponse contient une propriété 'success'
-        // C'est ici qu'on vérifie la *réussite métier* (ex: token reçu)
-        if (response && response.success) { 
-          // Connexion réussie, redirection
-          this.router.navigate(['/dashboard']); // Changé de /register à /dashboard, plus logique après un login.
+        this.loading = false;
+
+        if (response && response.token) {
+          localStorage.setItem('authToken', response.token);
+
+          // Redirection utilisateur
+          this.router.navigate(['/dashboard']);
         } else {
-          // Connexion échouée selon la réponse du backend
-          this.error = response ? response.message : 'Une erreur de connexion est survenue.';
+          this.error =
+            this.currentLanguage === 'fr'
+              ? 'Erreur de connexion : token manquant.'
+              : 'خطأ في تسجيل الدخول: رمز مفقود.';
         }
-        this.loading = false;
       },
-      // Bloc 'error' : une erreur HTTP est survenue (ex: 401 Unauthorized)
+
       error: (err) => {
-        this.error = err.error?.message || 'Identifiants invalides ou problème de serveur.';
         this.loading = false;
+        console.error(err);
+
+        this.error =
+          this.currentLanguage === 'fr'
+            ? 'Email ou mot de passe incorrect'
+            : 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
       },
-      // Bloc 'complete' : se produit après next ou error
-      complete: () => {
-        // Facultatif : des actions à exécuter après la fin de l'observable.
-      }
     });
   }
 }

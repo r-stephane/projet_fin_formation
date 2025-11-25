@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "eau-gaz": {
+    "angular-crud-books": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -22,7 +22,11 @@
               }
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
+            ],
+            "polyfills": [
+              "@angular/localize/init"
             ]
           },
           "configurations": {
@@ -30,13 +34,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2MB",
-                  "maximumError": "5MB"
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10kB",
-                  "maximumError": "15kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -53,10 +57,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "eau-gaz:build:production"
+              "buildTarget": "angular-crud-books:build:production"
             },
             "development": {
-              "buildTarget": "eau-gaz:build:development"
+              "buildTarget": "angular-crud-books:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,6 +80,9 @@
             ],
             "styles": [
               "src/styles.css"
+            ],
+            "polyfills": [
+              "@angular/localize/init"
             ]
           }
         }
@@ -83,6 +90,6 @@
     }
   },
   "cli": {
-    "analytics": "5a62cd68-c0e7-4844-86e4-a530647ff4af"
+    "analytics": "f9252a98-b9ed-4d50-846c-ddeae0badf4c"
   }
 }
