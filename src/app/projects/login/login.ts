@@ -144,6 +144,7 @@ export class Login implements OnInit {
     this.loading = true;
     this.error = '';
 
+<<<<<<< HEAD
     // Simulation d'une connexion API
     // setTimeout(() => {
     //   const email = this.loginForm.get('email')?.value;
@@ -169,6 +170,9 @@ export class Login implements OnInit {
     //       : 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
     //   }
     // }, 1000);
+=======
+   
+>>>>>>> 6a6eb1e (correction de angular.json)
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
 
@@ -180,7 +184,11 @@ export class Login implements OnInit {
           localStorage.setItem('authToken', response.token);
 
           // Redirection utilisateur
+<<<<<<< HEAD
           this.router.navigate(['/projects/dashboard']);
+=======
+          this.router.navigate(['/dashboard']);
+>>>>>>> 6a6eb1e (correction de angular.json)
         } else {
           this.error =
             this.currentLanguage === 'fr'
