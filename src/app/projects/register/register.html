@@ -5,7 +5,13 @@
       <div class="auth-tabs">
         <div class="auth-tab active">Inscription</div>
       </div>
-
+<!-- Bouton de traduction arabe -->
+            <li class="nav-item">
+              <button class="nav-link btn-translate" (click)="toggleLanguage()">
+                <span class="language-text">{{ t('arabe') }}</span>
+                <span class="language-flag">{{ currentLanguage === 'fr' ? '🇸🇦' : '🇫🇷' }}</span>
+              </button>
+            </li>
       <!-- Formulaire d'inscription -->
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form active">
         <!-- Messages d'alerte -->

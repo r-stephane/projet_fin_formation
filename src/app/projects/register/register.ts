@@ -2,14 +2,31 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+<<<<<<< HEAD
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs'; // Ajout pour la gestion des erreurs
+=======
+<<<<<<< HEAD
+=======
+import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { catchError, throwError } from 'rxjs'; // Ajout pour la gestion des erreurs
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
 
 @Component({
   selector: 'app-register',
   standalone: true,
+<<<<<<< HEAD
   // IMPORTANT: Ajouter HttpClientModule aux imports
   imports: [CommonModule, ReactiveFormsModule, RouterLink, HttpClientModule],
+=======
+<<<<<<< HEAD
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+=======
+  // IMPORTANT: Ajouter HttpClientModule aux imports
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, HttpClientModule],
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
   templateUrl: './register.html',
   styleUrls: ['./register.css']
 })
@@ -17,16 +34,35 @@ export class Register {
   registerForm: FormGroup;
   submitted = false;
   loading = false;
+<<<<<<< HEAD
   // Les messages d'erreur et de succès seront définis par l'API
   error = ''; 
   success = '';
   currentLanguage: 'fr' | 'ar' = 'fr';
 
+=======
+<<<<<<< HEAD
+  error = '';
+  success = '';
+  currentLanguage: 'fr' | 'ar' = 'fr';
+
+  //  Dictionnaire bilingue
+=======
+  // Les messages d'erreur et de succès seront définis par l'API
+  error = ''; 
+  success = '';
+  currentLanguage: 'fr' | 'ar' = 'fr';
+
+>>>>>>> bb91b36
   // URL de l'API pour l'inscription. 
   // Remplacez 'http://localhost:8000' par l'URL de base de votre API si elle change.
   private BASE_URL = 'http://localhost:8000/user'; 
 
   // Dictionnaire bilingue
+<<<<<<< HEAD
+=======
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
   translations: any = {
     fr: {
       arabe: 'Arabe',
@@ -47,8 +83,17 @@ export class Register {
         motDePasseRequis: 'Le mot de passe est requis',
         motDePasseCourt: 'Minimum 6 caractères requis',
         confirmationRequise: 'La confirmation du mot de passe est requise',
+<<<<<<< HEAD
         motDePasseNonIdentique: 'Les mots de passe ne correspondent pas',
         dejaEnregistre: 'Cet email est déjà enregistré.'
+=======
+<<<<<<< HEAD
+        motDePasseNonIdentique: 'Les mots de passe ne correspondent pas'
+=======
+        motDePasseNonIdentique: 'Les mots de passe ne correspondent pas',
+        dejaEnregistre: 'Cet email est déjà enregistré.'
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
       },
       succes: 'Inscription réussie ! Redirection vers la page de connexion...'
     },
@@ -71,19 +116,39 @@ export class Register {
         motDePasseRequis: 'كلمة المرور مطلوبة',
         motDePasseCourt: 'يجب إدخال 6 أحرف على الأقل',
         confirmationRequise: 'تأكيد كلمة المرور مطلوب',
+<<<<<<< HEAD
         motDePasseNonIdentique: 'كلمتا المرور غير متطابقتين',
         dejaEnregistre: 'هذا البريد الإلكتروني مسجل بالفعل.'
+=======
+<<<<<<< HEAD
+        motDePasseNonIdentique: 'كلمتا المرور غير متطابقتين'
+=======
+        motDePasseNonIdentique: 'كلمتا المرور غير متطابقتين',
+        dejaEnregistre: 'هذا البريد الإلكتروني مسجل بالفعل.'
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
       },
       succes: 'تم التسجيل بنجاح! يتم التوجيه إلى صفحة تسجيل الدخول...'
     }
   };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  // Ajouter Router dans le constructor
+  constructor(private fb: FormBuilder, private router: Router) {
+=======
+>>>>>>> bb91b36
   // AJOUTER HttpClient dans le constructor
   constructor(
     private fb: FormBuilder, 
     private router: Router,
     private http: HttpClient // Injection du service HTTP
   ) {
+<<<<<<< HEAD
+=======
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
     this.registerForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -92,6 +157,12 @@ export class Register {
     }, { validators: this.passwordMatchValidator });
   }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  //  Fonction de traduction
+=======
+>>>>>>> bb91b36
   // Logique de gestion des erreurs HTTP
   private handleError(error: HttpErrorResponse) {
     this.loading = false;
@@ -112,6 +183,10 @@ export class Register {
   }
   
   // Fonction de traduction (inchangée)
+<<<<<<< HEAD
+=======
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
   t(key: string): string {
     const keys = key.split('.');
     let value = this.translations[this.currentLanguage];
@@ -123,14 +198,36 @@ export class Register {
     return value || key;
   }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  // Bascule entre FR ↔ AR
+  toggleLanguage() {
+    this.currentLanguage = this.currentLanguage === 'fr' ? 'ar' : 'fr';
+    document.dir = this.currentLanguage === 'ar' ? 'rtl' : 'ltr';
+    
+    // Sauvegarder la préférence linguistique
+=======
+>>>>>>> bb91b36
   // Bascule entre FR ↔ AR (inchangée)
   toggleLanguage() {
     this.currentLanguage = this.currentLanguage === 'fr' ? 'ar' : 'fr';
     document.dir = this.currentLanguage === 'ar' ? 'rtl' : 'ltr';
+<<<<<<< HEAD
+=======
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
     localStorage.setItem('preferredLanguage', this.currentLanguage);
   }
 
   ngOnInit() {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    // Récupérer la langue sauvegardée
+=======
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
     const savedLanguage = localStorage.getItem('preferredLanguage') as 'fr' | 'ar';
     if (savedLanguage) {
       this.currentLanguage = savedLanguage;
@@ -138,19 +235,43 @@ export class Register {
     }
   }
 
+<<<<<<< HEAD
   // Vérifie que les mots de passe correspondent (inchangée)
+=======
+<<<<<<< HEAD
+  //  Vérifie que les mots de passe correspondent
+=======
+  // Vérifie que les mots de passe correspondent (inchangée)
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password')?.value;
     const confirm = form.get('confirmPassword')?.value;
     return password === confirm ? null : { passwordMismatch: true };
   }
 
+<<<<<<< HEAD
   // Raccourci pour accéder aux contrôles (inchangée)
+=======
+<<<<<<< HEAD
+  // Raccourci pour accéder aux contrôles
+=======
+  // Raccourci pour accéder aux contrôles (inchangée)
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
   get f() {
     return this.registerForm.controls;
   }
 
+<<<<<<< HEAD
   // MODIFIÉ: Soumission du formulaire avec appel API
+=======
+<<<<<<< HEAD
+  //  Soumission du formulaire avec redirection
+=======
+  // MODIFIÉ: Soumission du formulaire avec appel API
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
   onSubmit() {
     this.submitted = true;
     this.error = '';
@@ -160,6 +281,7 @@ export class Register {
 
     this.loading = true;
 
+<<<<<<< HEAD
     // 1. Préparer les données pour l'API
     const { nom, email, password, confirm_password } = this.registerForm.value;
     console.log(nom, email, password, confirm_password);    
@@ -209,5 +331,84 @@ export class Register {
   // Redirection immédiate vers login (inchangée)
   redirectToLogin() {
     this.router.navigate(['/login']);
+=======
+<<<<<<< HEAD
+    // Simulation d'un appel API
+    setTimeout(() => {
+      this.loading = false;
+      this.success = this.t('succes');
+      
+      // Sauvegarder les données utilisateur (simulation)
+      const userData = {
+        fullName: this.registerForm.get('fullName')?.value,
+        email: this.registerForm.get('email')?.value,
+        registeredAt: new Date().toISOString()
+      };
+      
+      localStorage.setItem('userData', JSON.stringify(userData));
+      
+      // Redirection vers la page de login après 2 secondes
+      setTimeout(() => {
+        this.router.navigate(['projects/login']);
+      }, 2000);
+      
+    }, 1500);
+  }
+
+  //  Redirection immédiate vers login
+  redirectToLogin() {
+    this.router.navigate(['projects/login']);
+=======
+    // 1. Préparer les données pour l'API
+    const { nom, email, password, confirm_password } = this.registerForm.value;
+    console.log(nom, email, password, confirm_password);    
+    
+    // NOTE: Le backend de l'inscription ne nécessite généralement pas 'confirmPassword'
+    // const payload = { 
+    //     nom,
+    //     email, 
+    //     password,
+    //     confirm_password 
+    // };
+    const payload = { 
+      nom: this.registerForm.get('fullName')?.value,
+      email: this.registerForm.get('email')?.value,
+      password: this.registerForm.get('password')?.value,
+      confirmPassword: this.registerForm.get('confirmPassword')?.value
+    };
+    console.log("Payload : ", payload);
+    
+
+    // 2. Faire l'appel POST à l'API de connexion
+    this.http.post(`${this.BASE_URL}/register`, payload) // Utilisation de l'endpoint /register
+      .pipe(
+        // Utiliser catchError pour gérer les erreurs du serveur (400, 409, 500, etc.)
+        catchError((error: HttpErrorResponse) => this.handleError(error)) 
+      )
+      .subscribe({
+        next: (response) => {
+          // Gérer le succès (statut 200/201)
+          this.loading = false;
+          this.success = this.t('succes'); 
+          
+          // Redirection vers la page de login après 2 secondes
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
+        },
+        error: (err) => {
+          // Le handleError a déjà mis à jour this.error, 
+          // mais l'observable nécessite un bloc error pour gérer l'erreur jetée.
+          console.error('Erreur finale capturée par le subscribe:', err);
+          // this.loading est déjà mis à jour dans handleError
+        }
+      });
+  }
+
+  // Redirection immédiate vers login (inchangée)
+  redirectToLogin() {
+    this.router.navigate(['/login']);
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
   }
 }

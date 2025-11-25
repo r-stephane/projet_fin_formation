@@ -144,7 +144,39 @@ export class Login implements OnInit {
     this.loading = true;
     this.error = '';
 
+<<<<<<< HEAD
    
+=======
+<<<<<<< HEAD
+    // Simulation d'une connexion API
+    // setTimeout(() => {
+    //   const email = this.loginForm.get('email')?.value;
+    //   const password = this.loginForm.get('password')?.value;
+
+    //   // Simulation de validation
+    //   if (email && password.length >= 3) { // Mot de passe d'au moins 3 caractères pour la démo
+    //     // Connexion réussie
+    //     this.loading = false;
+
+    //     // Stocker les informations
+    //     localStorage.setItem('isLoggedIn', 'true');
+    //     localStorage.setItem('userEmail', email);
+
+    //     // Redirection vers le dashboard
+    //     console.log('Redirection vers le dashboard...');
+    //     this.router.navigate(['projects/dashboard']);
+    //   } else {
+    //     // Échec de connexion
+    //     this.loading = false;
+    //     this.error = this.currentLanguage === 'fr'
+    //       ? 'Email ou mot de passe incorrect'
+    //       : 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+    //   }
+    // }, 1000);
+=======
+   
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
 
@@ -156,7 +188,15 @@ export class Login implements OnInit {
           localStorage.setItem('authToken', response.token);
 
           // Redirection utilisateur
+<<<<<<< HEAD
           this.router.navigate(['/dashboard']);
+=======
+<<<<<<< HEAD
+          this.router.navigate(['/projects/dashboard']);
+=======
+          this.router.navigate(['/dashboard']);
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
         } else {
           this.error =
             this.currentLanguage === 'fr'

@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
@@ -93,3 +95,4 @@
     "analytics": "f9252a98-b9ed-4d50-846c-ddeae0badf4c"
   }
 }
+>>>>>>> 6a6eb1e (correction de angular.json)

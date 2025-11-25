@@ -3,7 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators'; 
 
+<<<<<<< HEAD
 const BASE_URL = 'http://localhost:8000/user';
+=======
+<<<<<<< HEAD
+const BASE_URL = 'http://localhost:8000';
+=======
+const BASE_URL = 'http://localhost:8000/user';
+>>>>>>> 6a6eb1e (correction de angular.json)
+>>>>>>> bb91b36
 
 @Injectable({
   providedIn: 'root'
